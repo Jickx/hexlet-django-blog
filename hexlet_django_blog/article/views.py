@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.views import View
+
+from hexlet_django_blog.article.models import Article
 
 
-def index(request):
-    return redirect('python/42/', tags='python', articles_id='42')
+class IndexView(View):
 
-
-def article(request, tags, article_id):
-    return render(request, 'articles/index.html', context={
-        'tags': tags,
-        'article_id': article_id,
-    })
+    def get(self, request, *args, **kwargs):
+        articles = Article.objects.all()[:15]
+        return render(request, 'articles/index.html', context={
+            'articles': articles,
+        })
